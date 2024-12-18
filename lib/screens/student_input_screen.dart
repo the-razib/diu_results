@@ -8,12 +8,10 @@ class StudentInputScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.blueAccent,
+        appBar:AppBar(
+          toolbarHeight: 18,
           bottom: const TabBar(
-            indicatorColor: Colors.white,
-            indicatorWeight: 3,
+            indicatorWeight: 4.0,
             tabs: [
               Tab(
                 icon: Icon(Icons.school, size: 32),
@@ -29,87 +27,7 @@ class StudentInputScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             // Results Screen
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Header Section
-                    const Icon(
-                      Icons.school,
-                      size: 100,
-                      color: Colors.blueAccent,
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Welcome to the DIU Result Portal!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Input Field
-                    TextField(
-                      controller: studentIdController,
-                      decoration: InputDecoration(
-                        labelText: 'Enter Student ID',
-                        hintText: 'e.g., 201-15-3637',
-                        prefixIcon: const Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                      ),
-                      keyboardType: TextInputType.text,
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Action Button
-                    ElevatedButton(
-                      onPressed: () {
-                        final studentId = studentIdController.text.trim();
-                        if (studentId.isNotEmpty) {
-                          Navigator.pushNamed(
-                            context,
-                            '/results',
-                            arguments: studentId,
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Please enter a valid Student ID'),
-                            ),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24.0,
-                          vertical: 12.0,
-                        ),
-                        elevation: 2,
-                      ),
-                      child: const Text(
-                        'View Results',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            resultScreenTabView(context),
 
             // CGPA Calculator Screen with SgpaCalculator
             Center(
@@ -128,12 +46,89 @@ class StudentInputScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Text('SgpaCalculator Screen (Future feature)', textAlign: TextAlign.center),
+                child: const Text('SgpaCalculator Screen (Future feature)',
+                    textAlign: TextAlign.center),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+
+
+  // Result Screen Tab View
+  Widget resultScreenTabView(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Header Section
+            const Icon(
+              Icons.school,
+              size: 100,
+              color: Colors.blueAccent,
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Welcome to the DIU Result Portal!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Input Field
+            TextField(
+              controller: studentIdController,
+              decoration: const InputDecoration(
+                labelText: 'Enter Student ID',
+                hintText: 'e.g., 201-15-3637',
+                prefixIcon: Icon(Icons.person, color: Colors.black54),
+              ),
+              keyboardType: TextInputType.text,
+            ),
+            const SizedBox(height: 24),
+
+            // Action Button
+            ElevatedButton(
+              onPressed: () {
+                _onTabResultView(context);
+              },
+              child: const Text(
+                'View Results',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _onTabResultView(context) {
+    final studentId = studentIdController.text.trim();
+    if (studentId.isNotEmpty) {
+      Navigator.pushNamed(
+        context,
+        '/results',
+        arguments: studentId,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a valid Student ID'),
+        ),
+      );
+    }
   }
 }

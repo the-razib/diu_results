@@ -1,7 +1,7 @@
 class Semester {
-  final String semesterId;     // String from JSON
-  final int semesterYear;      // int from JSON
-  final String semesterName;   // String from JSON
+  final String semesterId;
+  final int semesterYear;
+  final String semesterName;
 
   Semester({
     required this.semesterId,
@@ -11,9 +11,9 @@ class Semester {
 
   factory Semester.fromJson(Map<String, dynamic> json) {
     return Semester(
-      semesterId: json['semesterId'],               // Directly as String
-      semesterYear: json['semesterYear'],           // Directly as int
-      semesterName: json['semesterName'],           // Directly as String
+      semesterId: json['semesterId'],
+      semesterYear: json['semesterYear'],
+      semesterName: json['semesterName'],
     );
   }
 }
